@@ -28,16 +28,14 @@ class AssessmentViewTest(unittest.TestCase):
             print(driver.page_source)
             return
 
-        # Ensure the username field is visible and enabled
         assert username.is_displayed(), "Username field is not visible"
         assert username.is_enabled(), "Username field is not enabled"
 
-        # Try entering the email
+
         print("Trying to enter the email...")
-        username.clear()  # Clear any existing text
+        username.clear()
         username.send_keys("adelya.sitanggang@binus.ac.id")
 
-        # Fallback using JavaScript if send_keys doesn't work
         driver.execute_script("arguments[0].value = 'adelya.sitanggang@binus.ac.id';", username)
 
         print("Waiting for the password input field...")
