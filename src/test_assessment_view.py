@@ -8,8 +8,14 @@ import unittest
 
 class AssessmentViewTest(unittest.TestCase):
     def setUp(self):
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("window-size=1920,1080")
         service = Service('/usr/local/bin/chromedriver-mac-arm64/chromedriver')
-        self.driver = webdriver.Chrome(service=service)
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)
 
     def test_assessment_page(self):
         driver = self.driver
@@ -34,7 +40,6 @@ class AssessmentViewTest(unittest.TestCase):
         username.clear()
         username.send_keys("adelya.sitanggang@binus.ac.id")
 
-        # Fallback using JavaScript if send_keys doesn't work
         driver.execute_script("arguments[0].value = 'adelya.sitanggang@binus.ac.id';", username)
 
         print("Waiting for the password input field...")
@@ -48,7 +53,7 @@ class AssessmentViewTest(unittest.TestCase):
 
         print("Waiting for dashboard to load...")
         WebDriverWait(driver, 40).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "actual-dashboard-class"))  # Adjust this class name
+            EC.presence_of_element_located((By.CLASS_NAME, "actual-dashboard-class"))
         )
 
         driver.get('https://newbinusmaya.binus.ac.id/lms/assessment')
